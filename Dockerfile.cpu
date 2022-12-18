@@ -1,11 +1,10 @@
 FROM python:3.9-slim
 
 ARG TARGETARCH
-ENV TARGET_DIR /opt/enas-cnn-cifar10
+ENV TARGET_DIR /opt/enas-mnist
 ENV PYTHONPATH ${TARGET_DIR}
 
-ADD examples/v1beta1/trial-images/enas-cnn-cifar10 ${TARGET_DIR}
-
+COPY ./requirements.txt ${TARGET_DIR}
 WORKDIR  ${TARGET_DIR}
 
 RUN if [ "${TARGETARCH}" = "arm64" ]; then \
@@ -16,6 +15,7 @@ RUN if [ "${TARGETARCH}" = "arm64" ]; then \
     fi
 
 RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
 RUN chgrp -R 0 ${TARGET_DIR} \
   && chmod -R g+rwX ${TARGET_DIR}
 

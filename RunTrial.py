@@ -1,5 +1,5 @@
 from tensorflow import keras
-from keras.datasets import cifar10
+from keras.datasets import mnist
 from ModelConstructor import ModelConstructor
 from tensorflow.keras.utils import to_categorical
 from keras.preprocessing.image import ImageDataGenerator
@@ -54,13 +54,16 @@ if __name__ == "__main__":
 
     print(">>> Model Constructed Successfully\n")
 
-    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-    x_train = x_train.astype('float32')
-    x_test = x_test.astype('float32')
-    x_train /= 255
-    x_test /= 255
-    y_train = to_categorical(y_train)
-    y_test = to_categorical(y_test)
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    # reshaping the data
+    # reshaping pixels in a 28x28px image with greyscale, canal = 1. This is needed for the Keras API
+    x_train = x_train.reshape(-1,28,28,1)
+    x_test = x_test.reshape(-1,28,28,1)
+
+    # normalizing the data
+    # each pixel has a value between 0-255. Here we divide by 255, to get values from 0-1
+    x_train = x_train / 255
+    x_test = x_test / 255
 
     augmentation = ImageDataGenerator(
         width_shift_range=0.1,

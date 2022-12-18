@@ -2,10 +2,10 @@
 # Ref: https://docs.nvidia.com/deeplearning/frameworks/tensorflow-release-notes/rel_22-08.html#rel_22-08
 FROM nvcr.io/nvidia/tensorflow:22.08-tf2-py3
 
-ENV TARGET_DIR /opt/enas-cnn-cifar10
+ENV TARGET_DIR /opt/enas-mnist
 ENV PYTHONPATH ${TARGET_DIR}
 
-ADD examples/v1beta1/trial-images/enas-cnn-cifar10 ${TARGET_DIR}
+ADD . ${TARGET_DIR}
 
 WORKDIR  ${TARGET_DIR}
 
